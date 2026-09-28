@@ -89,3 +89,119 @@ Example Output:
  { "manufacturer": "Acme", "price": 50 },
  { "price": 20 }
 ]
+
+
+Solution:
+
+function calcArea(radius){
+    if(typeof radius !== "number" || radius<0) return "Invalid input";
+    return (Math.PI*radius*radius).toFixed(2);
+}
+console.log(calcArea(5)); // Should return 78.53981633974483
+
+function countVowelsIgnoreNumbers(str) {
+  let count = 0;
+  for (let char of str.toLowerCase()) {
+    if ("aeiou".includes(char)) {
+      count++;
+    }
+  }
+  return count;
+}
+console.log(countVowelsIgnoreNumbers("H3ll0 W0rld")); // 1
+
+function isAnagramWithSymbols(str1, str2) {
+  const a = str1
+    .toLowerCase()
+    .replace(/[^a-z]/g, "")
+    .split("")
+    .sort()
+    .join("");
+  const b = str2
+    .toLowerCase()
+    .replace(/[^a-z]/g, "")
+    .split("")
+    .sort()
+    .join("");
+  return a === b;
+}
+console.log(isAnagramWithSymbols("Listen!", "Silent!!")); // true
+
+function convertFahrenheitArrayToCelsius(arr){
+    return arr.map((temp)=> ((temp - 32) * 5/9).toFixed(0));
+}
+console.log(convertFahrenheitArrayToCelsius([32, 98.6, 212])); 
+
+const name = prompt("Enter your name:");
+const age = Number(prompt("Enter your age:")); // prompt always returns a string
+
+function findSmallestUnique(num1, num2, num3) {
+  const uniqueNums = new Set([num1, num2, num3]);
+  return Math.min(...uniqueNums);
+}
+console.log(findSmallestUnique(3, 3, 5)); // 3
+function findSmallestUnique(num1, num2, num3) {
+  return Math.min(num1, num2, num3);
+}
+console.log(findSmallestUnique(3, 3, 5)); // 3
+
+function findUniqueIntersection(arr1, arr2) {
+  const set2 = new Set(arr2);
+  return [...new Set(arr1)].filter(x => set2.has(x));
+}
+console.log(findUniqueIntersection([1, 2, 3, 3, 4, 5], [3, 5, 5, 6, 7])); // [3, 5]
+function findUniqueIntersection(arr1, arr2) {
+  const set2 = new Set(arr2);
+  return [...new Set(arr1)].filter(x => set2.has(x));
+}
+console.log(findUniqueIntersection([1, 2, 3, 3, 4, 5], [3, 5, 5, 6, 7])); // [3, 5]
+
+function rotateArray(arr, k) {
+  const result = [...arr];
+  const n = result.length;
+  if (n === 0) return [];
+  const shift = ((k % n) + n) % n;
+  for (let i = 0; i < shift; i++) {
+    result.push(result.shift()); // take from the front, put at the back
+  }
+  return result;
+}
+
+function sumValuesByKeyWithDefault(obj, key) {
+  if (obj === null || typeof obj !== "object") return 0;
+  let sum = 0;
+  for (const k in obj) {
+    if (k === key && typeof obj[k] === "number") {
+      sum += obj[k];
+    }
+    sum += sumValuesByKeyWithDefault(obj[k], key);
+  }
+  return sum;
+}
+const data = {
+  a: { count: 10 },
+  b: [{ count: 5 }, { missingKey: 15 }],
+  c: { details: { count: 20 } },
+};
+console.log(sumValuesByKeyWithDefault(data, "count")); // 35
+
+function extractObjectsByKeyFromArrays(obj, key) {
+  const result = [];
+  function walk(node) {
+    if (node === null || typeof node !== "object") return;
+    if (!Array.isArray(node) && Object.hasOwn(node, key)) {
+      result.push(node);
+    }
+    Object.values(node).forEach(walk);
+  }
+  walk(obj);
+  return result;
+}
+const a = {
+  items: [{ name: "Item 1", price: 10 }, { name: "Item 2" }],
+  details: { manufacturer: "Acme", price: 50 },
+  extra: [{ price: 20 }],
+};
+
+console.log(extractObjectsByKeyFromArrays(a, "price"));
+// [ { name: "Item 1", price: 10 }, { manufacturer: "Acme", price: 50 }, { price: 20 } ]
